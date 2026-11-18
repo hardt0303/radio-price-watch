@@ -1,4 +1,4 @@
-name: Update prices and publish dashboard
+name: Check prices and publish dashboard
 on:
   workflow_dispatch:
   schedule:
@@ -13,7 +13,21 @@ concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
-  refresh:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update retailer prices
+        run: python3 update_prices.py
+      - name: Save price history
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add prices.json
+          git diff --cached --quiet || git commit -m "Update retailer prices"
+          git push
+  deploy:
+    needs: update
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
