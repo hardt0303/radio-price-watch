@@ -63,7 +63,7 @@ form{display:grid;gap:12px;max-width:620px}
 <form id="add-item">
 <label>Item name<input name="name" required maxlength="100" placeholder="For example, a handheld radio"></label>
 <label>Buy at or below<input name="target" required type="number" min="0.01" step="0.01" placeholder="Your target price in dollars"></label>
-<label>Product link<input name="url" required type="url" placeholder="https://store.com/product"></label>
+<label>Product link (optional)<input name="url" type="url" placeholder="https://store.com/product"></label>
 <label>Current price, if known<input name="current" type="number" min="0.01" step="0.01" placeholder="Optional"></label>
 <button type="submit">Add item to my list</button>
 </form>
@@ -133,7 +133,7 @@ function drawItems(){
  const list=el("my-items");list.replaceChildren();
  for(const [index,item] of getItems().entries()){
   const card=add(list,"div","","entry"),row=add(card,"div","","row");
-  const link=add(row,"a",item.name,"item-name");link.href=item.url;link.target="_blank";link.rel="noopener";
+  if(item.url){const link=add(row,"a",item.name,"item-name");link.href=item.url;link.target="_blank";link.rel="noopener"}else add(row,"span",item.name,"item-name");
   add(row,"span","Buy at "+money(Math.round(Number(item.target)*100)),"price");
   const current=Number(item.current);
   if(Number.isFinite(current)&&current>0){
@@ -155,11 +155,11 @@ function drawItems(){
 el("add-item").addEventListener("submit",event=>{
  event.preventDefault();
  const form=event.currentTarget,fields=new FormData(form),url=String(fields.get("url")).trim();
- try{const parsed=new URL(url);if(!["https:","http:"].includes(parsed.protocol))throw new Error()}
- catch{el("status").textContent="Enter a valid product link.";return}
+ if(url){try{const parsed=new URL(url);if(!["https:","http:"].includes(parsed.protocol))throw new Error()}
+ catch{el("status").textContent="Enter a valid product link, or leave the field blank.";return}}
  const target=Number(fields.get("target")),current=fields.get("current")?Number(fields.get("current")):null;
  if(!Number.isFinite(target)||target<=0){return}
- const items=getItems();items.push({name:String(fields.get("name")).trim(),target,current,url});
+ const items=getItems();items.push({name:String(fields.get("name")).trim(),target,current,url:url||""});
  try{saveItems(items)}catch{el("status").textContent="This browser could not save the list. Check its storage settings.";return}
  form.reset();drawItems();el("status").textContent="Item and target saved in this browser.";
 });
