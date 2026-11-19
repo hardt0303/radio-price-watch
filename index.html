@@ -105,23 +105,7 @@ async function loadPrices(){
    const entry=add(el("stores"),"div","","entry"),row=add(entry,"div","","row");
    const name=add(row,"a",store.name);name.href=store.url;name.target="_blank";name.rel="noopener";
    add(row,"strong",Number.isInteger(store.price)?money(store.price):"—","price");
-   if(store.name==="R&L Electronics"){
-    const cart=add(row,"button","Test add to cart","buy");
-    cart.type="button";cart.setAttribute("aria-label","Test adding Icom ID-5200A to R and L Electronics cart");
-    cart.onclick=()=>{
-      const form=document.createElement("form");
-      form.method="POST";
-      form.action="https://www.randl.com/index.php?main_page=product_info&products_id=76616&action=add_product";
-      form.target="_blank";form.style.display="none";
-      for(const [key,value] of Object.entries({cart_quantity:"1",products_id:"76616"})){
-        const field=document.createElement("input");field.type="hidden";field.name=key;field.value=value;form.append(field);
-      }
-      document.body.append(form);form.submit();form.remove();
-    };
-    const fallback=add(entry,"a","View R&L product page (fallback)");
-    fallback.href=store.url;fallback.target="_blank";fallback.rel="noopener";
-    add(entry,"small","Experimental: R&L may require a session security token; verify the item appears in your cart.","muted");
-   }else if(store.name==="Ham Radio Outlet"){
+   if(store.name==="Ham Radio Outlet"){
     const cart=add(row,"button","Add to cart","buy");
     cart.type="button";cart.setAttribute("aria-label","Add Icom ID-5200A to Ham Radio Outlet cart");
     cart.onclick=()=>{
