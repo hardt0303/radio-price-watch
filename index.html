@@ -27,7 +27,7 @@ h3{font-size:17px;margin:0 0 5px}
 .row{display:flex;justify-content:space-between;gap:12px;align-items:center}
 a{color:inherit;text-underline-offset:3px}
 .price{font:650 20px ui-monospace,monospace;white-space:nowrap}
-.buy{background:var(--mint);color:#102c25;text-decoration:none;border-radius:7px;padding:9px 13px;font-weight:700;font-size:14px;white-space:nowrap}
+.buy{border:0;cursor:pointer;background:var(--mint);color:#102c25;text-decoration:none;border-radius:7px;padding:9px 13px;font-weight:700;font-size:14px;white-space:nowrap}
 small,time{display:block;color:var(--muted);margin-top:5px}
 .drop{color:var(--mint)}
 button{border:0;border-radius:8px;padding:12px 16px;background:var(--mint);font-weight:700;font-size:15px;cursor:pointer}
@@ -105,7 +105,20 @@ async function loadPrices(){
    const entry=add(el("stores"),"div","","entry"),row=add(entry,"div","","row");
    const name=add(row,"a",store.name);name.href=store.url;name.target="_blank";name.rel="noopener";
    add(row,"strong",Number.isInteger(store.price)?money(store.price):"—","price");
-   const buy=add(row,"a","Buy","buy");buy.href=store.url;buy.target="_blank";buy.rel="noopener";
+   if(store.name==="Ham Radio Outlet"){
+    const cart=add(row,"button","Add to cart","buy");
+    cart.type="button";cart.setAttribute("aria-label","Add Icom ID-5200A to Ham Radio Outlet cart");
+    cart.onclick=()=>{
+      const form=document.createElement("form");form.method="POST";form.action="https://www.hamradio.com/cart.cfm";form.target="_blank";form.style.display="none";
+      for(const [key,value] of Object.entries({addtoggle:"0",productid:"71-005028",ol:"0"})){
+        const field=document.createElement("input");field.type="hidden";field.name=key;field.value=value;form.append(field);
+      }
+      document.body.append(form);form.submit();form.remove();
+    };
+    const product=add(entry,"a","View product page");product.href=store.url;product.target="_blank";product.rel="noopener";
+   }else{
+    const buy=add(row,"a","Buy","buy");buy.href=store.url;buy.target="_blank";buy.rel="noopener";
+   }
    add(entry,"small",store.status||"Awaiting first reading");
    if(store.previous&&store.price<store.previous)add(entry,"small","↓ "+money(store.previous-store.price)+" from "+money(store.previous),"drop");
   }
