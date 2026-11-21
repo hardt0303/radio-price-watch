@@ -1,15 +1,15 @@
 {
-  "updated_at": "2026-11-21T08:20:10.980458+00:00",
+  "updated_at": "2026-11-21T16:50:22.210577+00:00",
   "stores": {
     "R&L Electronics": {
       "price": 99995,
       "previous": null,
-      "status": "Verified 2026-11-21T08:20:10.980458+00:00"
+      "status": "Verified 2026-11-21T16:50:22.210577+00:00"
     },
     "Ham Radio Outlet": {
       "price": 99995,
       "previous": null,
-      "status": "Verified 2026-11-21T08:20:10.980458+00:00"
+      "status": "Verified 2026-11-21T16:50:22.210577+00:00"
     },
     "DX Engineering": {
       "status": "Could not verify on latest check"
@@ -17,17 +17,17 @@
     "Associated Radio": {
       "price": 99995,
       "previous": null,
-      "status": "Verified 2026-11-21T08:20:10.980458+00:00"
+      "status": "Verified 2026-11-21T16:50:22.210577+00:00"
     },
     "MTC Radio": {
       "price": 99999,
       "previous": null,
-      "status": "Verified 2026-11-21T08:20:10.980458+00:00"
+      "status": "Verified 2026-11-21T16:50:22.210577+00:00"
     },
     "GigaParts": {
       "price": 99995,
       "previous": null,
-      "status": "Verified 2026-11-21T08:20:10.980458+00:00"
+      "status": "Verified 2026-11-21T16:50:22.210577+00:00"
     }
   },
   "drops": []
